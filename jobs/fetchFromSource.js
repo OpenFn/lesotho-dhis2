@@ -1,7 +1,7 @@
 get('dataValueSets', {
-  dataSet: 'bkBzJ3ETIBD',
-  orgUnit: 'hfal93WttYV',
-  period: '202111',
+  dataSet: 'ETYQ9xrOgCI', // Is this the desired data set?
+  orgUnit: ['hfal93WttYV', 'JEhqFsfXxTt', 'HqJwxVQhfyM'], // Three org units?
+  period: '202111', // What period do you want?
   children: 'true',
 });
 
