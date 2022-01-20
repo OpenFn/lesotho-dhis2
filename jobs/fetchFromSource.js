@@ -28,15 +28,15 @@ fn(state => {
   return { ...state, orgunits };
 })
 
-
-
 each("orgunits[*]",
   state => get('dataValueSets', {
-      dataSet: 'bkBzJ3ETIBD',
-      orgUnit: state.data,
-      period: '202111',
-      fields: '*',
-    })(state)
+    dataSet: 'bkBzJ3ETIBD',
+    orgUnit: state.data,
+    period: '202111',
+    fields: '*',
+  }, {}, state => {
+    console.log("STATE", state)
+  })(state)
 );
 
 // get('dataValueSets', {
