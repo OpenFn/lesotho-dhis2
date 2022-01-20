@@ -1,7 +1,7 @@
 get('dataValueSets', {
-  dataSet: 'pBOMPrpg1QX',
-  orgUnit: 'DiszpKrYNg8',
-  period: '201401',
+  dataSet: 'ETYQ9xrOgCI.ubinVVrXjUoo',
+  orgUnit: 'hfal93WttYV',
+  period: '202111',
   fields: '*',
 })
 
