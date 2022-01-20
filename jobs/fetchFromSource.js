@@ -25,7 +25,7 @@ fn(state => {
     "soweCPFSM7L",
     "isI5LRdu80m",
   ]
-  return { ...state, orgunits };
+  return { ...state, orgunits, dataValueSets: []};
 })
 
 each("orgunits[*]",
@@ -35,7 +35,7 @@ each("orgunits[*]",
     period: '202111',
     fields: '*',
   }, {}, state => {
-    console.log("STATE", state)
+    return { ...state, dataValueSets: [ ...state.dataValueSets, state.data]}
   })(state)
 );
 
@@ -48,6 +48,6 @@ each("orgunits[*]",
 
 fn(state => {
   console.log('For testing only... view the output');
-  console.log(state.data);
+  console.log(state.dataValueSets);
   return state;
 });
