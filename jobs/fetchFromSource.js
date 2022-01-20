@@ -28,11 +28,11 @@ fn(state => {
   return { ...state, dataSet: 'bkBzJ3ETIBD', fields: '*', period: '202111', orgunits, dataValueSets: []};
 })
 
-each("orgunits[*]", state => get('dataValueSets', {
-  dataSet: state.dataSet,
-  orgUnit: state.data,
-  period: state.period,
-  fields: state.fields,
+each("orgunits[*]", get('dataValueSets', {
+  dataSet: state => state.dataSet,
+  orgUnit: state => state.data,
+  period: state => state.period,
+  fields: state => state.fields,
 }, {}, state => {
   return { ...state, dataValueSets: [ ...state.dataValueSets, state.data]}
 }));
