@@ -33,16 +33,7 @@ each("orgunits[*]", get('dataValueSets', {
   orgUnit: state => state.data,
   period: state => state.period,
   fields: state => state.fields,
-}, {}, state => {
-  return { ...state, dataValueSets: [ ...state.dataValueSets, state.data]}
-}));
-
-// get('dataValueSets', {
-//   dataSet: 'ETYQ9xrOgCI',
-//   orgUnit: 'hfal93WttYV',
-//   period: '202111',
-//   children: 'true',
-// });
+}, {}, state => ({ ...state, dataValueSets: [ ...state.dataValueSets, state.data]}));
 
 fn(state => {
   console.log('For testing only... view the output');
