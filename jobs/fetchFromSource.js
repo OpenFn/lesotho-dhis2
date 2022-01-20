@@ -30,7 +30,7 @@ fn(state => {
 
 
 
-each("$.orgunits[*]",
+each("orgunits[*]",
   get('dataValueSets', {
     dataSet: 'bkBzJ3ETIBD',
     orgUnit: state.data,
