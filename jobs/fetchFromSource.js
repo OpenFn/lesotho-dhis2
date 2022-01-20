@@ -2,11 +2,11 @@ fn(state => {
   const orgunits = [
     "hfal93WttYV",
     "JEhqFsfXxTt",
-    "HqJwxVQhfyM",
-    "VSxknPhjR6o",
-    "M7qFOnwmE3A",
-    "Qq4jYe5tHnl",
-    "mNzjvxYEHkq",
+    // "HqJwxVQhfyM",
+    // "VSxknPhjR6o",
+    // "M7qFOnwmE3A",
+    // "Qq4jYe5tHnl",
+    // "mNzjvxYEHkq",
     // "nFPxXeZftGm",
     // "eWjt9Zl76FS",
     // "uqh2OI3no6W",
@@ -28,16 +28,14 @@ fn(state => {
   return { ...state, dataSet: 'bkBzJ3ETIBD', fields: '*', period: '202111', orgunits, dataValueSets: []};
 })
 
-each("orgunits[*]",
-  state => get('dataValueSets', {
-    dataSet: state.dataSet,
-    orgUnit: state.data,
-    period: state.period,
-    fields: state.fields,
-  }, {}, state => {
-    return { ...state, dataValueSets: [ ...state.dataValueSets, state.data]}
-  })(state)
-);
+each("orgunits[*]", state => get('dataValueSets', {
+  dataSet: state.dataSet,
+  orgUnit: state.data,
+  period: state.period,
+  fields: state.fields,
+}, {}, state => {
+  return { ...state, dataValueSets: [ ...state.dataValueSets, state.data]}
+}));
 
 // get('dataValueSets', {
 //   dataSet: 'ETYQ9xrOgCI',
