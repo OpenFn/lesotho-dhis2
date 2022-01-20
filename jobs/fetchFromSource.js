@@ -33,6 +33,7 @@ fn(state => {
 each("orgunits[*]",
   state => {
     console.log(state.data)
+    return state
   }
   // get('dataValueSets', {
   //   dataSet: 'bkBzJ3ETIBD',
