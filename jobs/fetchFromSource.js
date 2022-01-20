@@ -1,5 +1,5 @@
 get('dataValueSets', {
-  dataset: 'ETYQ9xrOgCI',
+  dataSet: 'ETYQ9xrOgCI',
   orgUnit: 'hfal93WttYV',
   period: '202111',
   children: 'true',
