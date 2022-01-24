@@ -37,7 +37,7 @@ each("orgunits[*]", get('dataValueSets', {
 }, {}, state => {
   console.log("EACH STATE", state)
   return { ...state, dataValueSets: [ ...state.dataValueSets, state.data]}
-});
+}));
 
 // fn(state => {
 //   console.log('For testing only... view the output');
