@@ -90,15 +90,17 @@ each("orgunits[*]", get('dataValueSets', {
 }));
 
 fn(state => {
-  let categories = { PITC: [], CITC: [], 'Self-Test': [] }
+  let categories = {}
   
   for (let dataValue of state.dataValues) {
     const dataElement = dataValue.dataElement
     const categoryOptionCombo = dataValue.categoryOptionCombo
     const category = state.getCategory(dataElement)
     const dissegregation = state.getDissegration(categoryOptionCombo)
-    if (category !== '' ) {
-      categories[category].push({ [dissegregation]: dataValue})
+    if (category !== '' && dissegregation !== '') {
+      categories[category] = categories[category] || {};
+      categories[category][dissegregation] = categories[category][dissegregation] || []
+      categories[category][dissegregation].push(dataValue)
     }
   }
   
