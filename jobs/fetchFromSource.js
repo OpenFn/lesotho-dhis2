@@ -74,9 +74,7 @@ fn(state => {
   return { ...state, dataSet: 'bkBzJ3ETIBD', fields: '*', period: '202111', orgunits, dataValues: []};
 })
 
-each("orgunits[*]", state => {
-  console.log(state.data)
-  return get('dataValueSets', {
+each("orgunits[*]", get('dataValueSets', {
   dataSet: state => state.dataSet,
   orgUnit: state => state.data,
   period: state => state.period,
@@ -86,7 +84,7 @@ each("orgunits[*]", state => {
   console.log(state.dataValues.length)
   console.log('------------------------------------------------------------------------')
   return { ...state, dataValues: [ ...state.dataValues, ...state.data.dataValues]}
-})})(state);
+}));
 
 fn(state => {
   let categories = {}
