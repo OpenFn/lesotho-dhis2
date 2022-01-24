@@ -34,13 +34,18 @@ each("orgunits[*]", get('dataValueSets', {
   period: state => state.period,
   fields: state => state.fields,
   children: true
-}, {}, state => ({ ...state, dataValues: [ ...state.dataValues, ...state.data.dataValues]})));
+}, {}, state => {
+  
+  console.log(JSON.stringify(state.dataValues, null, 2))
+  console.log(JSON.stringify(state.data.dataValues, null, 2))
+  return { ...state, dataValues: [ ...state.dataValues, ...state.data.dataValues]}
+}));
 
-fn(state => {
-  console.log('For testing only... view the output');
-  console.log(JSON.stringify(state.dataValues, null, 2));
-  return state;
-});
+// fn(state => {
+//   console.log('For testing only... view the output');
+//   console.log(JSON.stringify(state.dataValues, null, 2));
+//   return state;
+// });
 
 fn(state => {
   
