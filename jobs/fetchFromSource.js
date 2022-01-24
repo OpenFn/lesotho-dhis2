@@ -8,29 +8,29 @@ fn(state => {
 
   const orgUnits = [
     'hfal93WttYV',
-    // 'JEhqFsfXxTt',
-    // 'HqJwxVQhfyM',
-    // 'VSxknPhjR6o',
-    // 'M7qFOnwmE3A',
-    // 'Qq4jYe5tHnl',
-    // 'mNzjvxYEHkq',
-    // 'nFPxXeZftGm',
-    // 'eWjt9Zl76FS',
-    // 'uqh2OI3no6W',
-    // 'aeBwvrjdh7m',
-    // 'qnw9ul9mgww',
-    // 'Kts15CHhP3h',
-    // 'Er2eXRYQ5kD',
-    // 'mdpCE7IYau0',
-    // 'HR8JDs4Sae5',
-    // 'GBeQB9YNmP4',
-    // 'L4FwAUd37Wp',
-    // 'KlCB0HQHtbg',
-    // 'dJssgIzIiL4',
-    // 'TBh00t5LnBZ',
-    // 'lpjb08mkXcY',
-    // 'soweCPFSM7L',
-    // 'isI5LRdu80m',
+    'JEhqFsfXxTt',
+    'HqJwxVQhfyM',
+    'VSxknPhjR6o',
+    'M7qFOnwmE3A',
+    'Qq4jYe5tHnl',
+    'mNzjvxYEHkq',
+    'nFPxXeZftGm',
+    'eWjt9Zl76FS',
+    'uqh2OI3no6W',
+    'aeBwvrjdh7m',
+    'qnw9ul9mgww',
+    'Kts15CHhP3h',
+    'Er2eXRYQ5kD',
+    'mdpCE7IYau0',
+    'HR8JDs4Sae5',
+    'GBeQB9YNmP4',
+    'L4FwAUd37Wp',
+    'KlCB0HQHtbg',
+    'dJssgIzIiL4',
+    'TBh00t5LnBZ',
+    'lpjb08mkXcY',
+    'soweCPFSM7L',
+    'isI5LRdu80m',
   ];
 
   const categoryMap = {
@@ -112,8 +112,45 @@ each(
 );
 
 fn(state => {
-  console.log('For testing only:' state.data);
-  // TODO: @Elias, sum these values inside the groups...
-  const countsByGroup = { '20/24/M': 12, '20/24/M': 873 }
-  return { ...state, data: countsByGroup };
-})
+  const htsDissagregationMapping = {
+    binVVrXjUoo: 'G8oqaQnAmQz',
+    XlGgWHa5Er0: 'Ia5XrRgOoZc',
+    dn857qxCLjI: 'Wom5jBgNz3u',
+    kuaIs6PmO6t: 'IjAGV77GfF7',
+    EfnRUWLUFgM: 'PDD2n7mrfsl',
+    yBiyPmKY8Ys: 'xzKEwR4tzSx',
+    e82ZBAX5mwf: 'F6owQuwE6Wy',
+    ascYulb9hGt: 'VPSMkEfibBD',
+    yX8Jw94a50t: 'nmlGhaT89NX',
+    jy86glDoMLO: 'NacBotlhYAT',
+    GLyrxm7RamK: 'dVV2GGALZwN',
+    hAyTxAXdvJd: 'cC26VA39W5n',
+    cICl8QRiG2M: 'YIBJdSpwf9U',
+    sDN7dWzFX89: 'vnrdkNkVJLc',
+    Q4lUeDf2r7z: 'AfFHNHpkv4M',
+    mt9SWhh1Cre: 'ZazrL0yVNem',
+  };
+
+  const combine = (pitc, citc, selfTest) =>
+    parseInt(pitc) + parseInt(citc) + parseInt(selfTest);
+
+  const dataElements = [];
+  Object.entries(state.data).forEach(([dissagregation, categories]) => {
+    const pitc = categories['PITC'];
+    const citc = categories['CITC'];
+    const selfTest = categories['Self-Test'];
+    for (let i = 0; i < pitc.length; i++) {
+      dataElements.push({
+        dataElement: 'Yf8WlTHmR6L',
+        period: pitc[i].period,
+        orgUnit: pitc[i].orgUnit,
+        categoryOptionCombo:
+          htsDissagregationMapping[pitc[i].categoryOptionCombo],
+        attributeOptionCombo: 'qZPpgD4Ykqh',
+        value: combine(pitc[i].value, citc[i].value, selfTest[i].value),
+        category: 'HTS',
+      });
+    }
+  });
+  return { ...state, data: { dataElements } };
+});
