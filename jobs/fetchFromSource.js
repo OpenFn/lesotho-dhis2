@@ -36,11 +36,11 @@ each("orgunits[*]", get('dataValueSets', {
   children: true
 }, {}, state => {
   console.log("EACH STATE", state.data.orgUnit)
-  return { ...state, dataValueSets: [ ...state.dataValueSets, state.data]}
+  return { ...state, dataValueSets: [ ...state.dataValueSets, {orgUnit: state.data.orgUnit, dataValueSets: state.data}]}
 }));
 
-// fn(state => {
-//   console.log('For testing only... view the output');
-//   console.log(JSON.stringify(state.dataValueSets, null, 2));
-//   return state;
-// });
+fn(state => {
+  console.log('For testing only... view the output');
+  console.log(JSON.stringify(state.dataValueSets, null, 2));
+  return state;
+});
