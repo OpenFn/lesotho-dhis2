@@ -53,7 +53,8 @@ fn(state => {
   }
   
   const getDissegration = categoryOptionCombo => {
-    const dissegregations = Object.keys(dissegregationsMapping).map(key => key.split('/'))
+    const dissegregations = Object.keys(dissegregationsMapping).map(key => key.split('/')).flatten()
+    
     console.log(dissegregations)
     return ''
   }
