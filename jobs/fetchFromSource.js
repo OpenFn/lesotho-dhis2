@@ -72,21 +72,14 @@ fn(state => {
   return { ...state, dataSet: 'bkBzJ3ETIBD', fields: '*', period: '202111', orgunits, dataValues: [], getCategory, getDissegration};
 })
 
-fn(state => {
-  let categories = {}
-  
-  for (let dataValue of state.dataValues) {
-    const dataElement = dataValue.dataElement
-    const categoryOptionCombo = dataValue.categoryOptionCombo
-    const category = state.getCategory(dataElement)
-    const dissegregation = state.getDissegration(categoryOptionCombo)
-    if (category !== '' && dissegregation !== '') {
-      categories[category] = categories[category] || {};
-      categories[category][dissegregation] = categories[category][dissegregation] || []
-      categories[category][dissegregation].push(dataValue)
-    }
-  }
-  
-  console.log(JSON.stringify(categories, null, 2))
-  return state;
-})
+each("orgunits[*]", get('dataValueSets', {
+  dataSet: state => state.dataSet,
+  orgUnit: state => state.data,
+  period: state => state.period,
+  fields: state => state.fields,
+  children: true
+}, {}, state => {
+  console.log(state.dataValues.length)
+  console.log('------------------------------------------------------------------------')
+  return { ...state, dataValues: [ ...state.dataValues, ...state.data.dataValues]}
+}));
