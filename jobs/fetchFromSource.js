@@ -73,7 +73,7 @@ fn(state => {
     const category = state.getCategory(dataElement)
     const dissegregation = state.getDissegration(categoryOptionCombo)
     if (category !== '' ) {
-      categories[category].push({ dissegregation: dataValue})
+      categories[category].push({ [dissegregation]: dataValue})
     }
   }
   
