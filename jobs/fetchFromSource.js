@@ -44,7 +44,13 @@ each("orgunits[*]", get('dataValueSets', {
 
 fn(state => {
   const getCategory = dataElement => {
-    return dataElement == 'ETYQ9xrOgCI' ? 'PITC' : dataElement == 'tsVPADeBpHd' ? 'CITC' : dataElement == 'BMiVQoY0NzQ' ? 'Self-Test' : ''
+    return dataElement == 'ETYQ9xrOgCI' ? '' : dataElement == '' ? '' : dataElement == '' ? 'Self-Test' : ''
+  }
+  
+  const categoriesMapping = {
+    ETYQ9xrOgCI: 'PITC',
+    tsVPADeBpHd: 'CITC',
+    BMiVQoY0NzQ: 'Self-Test'
   }
   
   const dissegregationsMapping = {
