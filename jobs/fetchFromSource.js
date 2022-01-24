@@ -1,5 +1,4 @@
 fn(state => {
-  
   const categoriesMapping = {
     ETYQ9xrOgCI: 'PITC',
     tsVPADeBpHd: 'CITC',
@@ -48,7 +47,7 @@ fn(state => {
 fn(state => {
   const orgunits = [
     "hfal93WttYV",
-    // "JEhqFsfXxTt",
+    "JEhqFsfXxTt",
     // "HqJwxVQhfyM",
     // "VSxknPhjR6o",
     // "M7qFOnwmE3A",
@@ -82,11 +81,7 @@ each("orgunits[*]", get('dataValueSets', {
   fields: state => state.fields,
   children: true
 }, {}, state => {
-  // console.log('--------------------------------------------------------------------------------')
-  // console.log(JSON.stringify(state.dataValues, null, 2))
-  // console.log(JSON.stringify(state.data.dataValues, null, 2))
   return { ...state, dataValues: [ ...state.dataValues, ...state.data.dataValues]}
-  // console.log('--------------------------------------------------------------------------------')
 }));
 
 fn(state => {
