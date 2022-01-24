@@ -3,42 +3,40 @@ fn(state => {
     "hfal93WttYV",
     "JEhqFsfXxTt",
     "HqJwxVQhfyM",
-    // "VSxknPhjR6o",
-    // "M7qFOnwmE3A",
-    // "Qq4jYe5tHnl",
-    // "mNzjvxYEHkq",
-    // "nFPxXeZftGm",
-    // "eWjt9Zl76FS",
-    // "uqh2OI3no6W",
-    // "aeBwvrjdh7m",
-    // "qnw9ul9mgww",
-    // "Kts15CHhP3h",
-    // "Er2eXRYQ5kD",
-    // "mdpCE7IYau0",
-    // "HR8JDs4Sae5",
-    // "GBeQB9YNmP4",
-    // "L4FwAUd37Wp",
-    // "KlCB0HQHtbg",
-    // "dJssgIzIiL4",
-    // "TBh00t5LnBZ",
-    // "lpjb08mkXcY",
-    // "soweCPFSM7L",
-    // "isI5LRdu80m",
-  ]
+    "VSxknPhjR6o",
+    "M7qFOnwmE3A",
+    "Qq4jYe5tHnl",
+    "mNzjvxYEHkq",
+    "nFPxXeZftGm",
+    "eWjt9Zl76FS",
+    "uqh2OI3no6W",
+    "aeBwvrjdh7m",
+    "qnw9ul9mgww",
+    "Kts15CHhP3h",
+    "Er2eXRYQ5kD",
+    "mdpCE7IYau0",
+    "HR8JDs4Sae5",
+    "GBeQB9YNmP4",
+    "L4FwAUd37Wp",
+    "KlCB0HQHtbg",
+    "dJssgIzIiL4",
+    "TBh00t5LnBZ",
+    "lpjb08mkXcY",
+    "soweCPFSM7L",
+    "isI5LRdu80m",
+  ];
   
   const categoriesMapping = {
     ETYQ9xrOgCI: 'PITC',
     tsVPADeBpHd: 'CITC',
     BMiVQoY0NzQ: 'Self-Test'
-  }
+  };
   
   const getCategory = dataElement => {
-    const categories = Object.keys(categoriesMapping)
-    if (categories.includes(dataElement)) {
-      return categoriesMapping[dataElement]
-    }
-    return ''
-  }
+    const categories = Object.keys(categoriesMapping);
+    if (categories.includes(dataElement)) return categoriesMapping[dataElement];
+    return '';
+  };
   
   const dissegregationsMapping = {
     'binVVrXjUoo/vfLYjpOKUf6': '15/19/M',
@@ -57,20 +55,20 @@ fn(state => {
     'sDN7dWzFX89/NTCqCfaP80J': '45/49/F',
     'Q4lUeDf2r7z/mbz798qghl6': '50+/ /M',
     'mt9SWhh1Cre/yXvU2aw5wyC': '50+/ /F',
-  }
+  };
   
   const getDissegration = categoryOptionCombo => {
-    const dissegregations = Object.keys(dissegregationsMapping)
+    const dissegregations = Object.keys(dissegregationsMapping);
     for (let dissegregation of dissegregations) {
       if (dissegregation.split("/").includes(categoryOptionCombo)) {
-        return dissegregationsMapping[dissegregation]
+        return dissegregationsMapping[dissegregation];
       }
     }
-    return ''
-  }
+    return '';
+  };
   
   return { ...state, dataSet: 'bkBzJ3ETIBD', fields: '*', period: '202111', orgunits, dataValues: [], getCategory, getDissegration};
-})
+});
 
 each("orgunits[*]", get('dataValueSets', {
   dataSet: state => state.dataSet,
@@ -78,27 +76,28 @@ each("orgunits[*]", get('dataValueSets', {
   period: state => state.period,
   fields: state => state.fields,
   children: true
-}, {}, state => {
-  console.log(state.dataValues.length)
-  console.log('------------------------------------------------------------------------')
-  return { ...state, dataValues: [ ...state.dataValues, ...state.data.dataValues]}
-}));
+}, {}, state => (
+  { ...state, dataValues: [ ...state.dataValues, ...state.data.dataValues]}
+)));
 
 fn(state => {
-  let categories = {}
-  
+  let categories = {};
   for (let dataValue of state.dataValues) {
-    const dataElement = dataValue.dataElement
-    const categoryOptionCombo = dataValue.categoryOptionCombo
-    const category = state.getCategory(dataElement)
-    const dissegregation = state.getDissegration(categoryOptionCombo)
+    const dataElement = dataValue.dataElement;
+    const categoryOptionCombo = dataValue.categoryOptionCombo;
+    const category = state.getCategory(dataElement);
+    const dissegregation = state.getDissegration(categoryOptionCombo);
     if (category !== '' && dissegregation !== '') {
       categories[category] = categories[category] || {};
-      categories[category][dissegregation] = categories[category][dissegregation] || []
-      categories[category][dissegregation].push(dataValue)
+      categories[category][dissegregation] = categories[category][dissegregation] || [];
+      categories[category][dissegregation].push(dataValue);
     }
   }
-  
-  console.log(JSON.stringify(categories, null, 2))
+  return { ...state, categories };
+});
+
+fn(state => {
+  console.log("All data with categories and dissegregations");
+  console.log(state.categories);
   return state;
-})
+});
