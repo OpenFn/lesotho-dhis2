@@ -35,36 +35,45 @@ each("orgunits[*]", get('dataValueSets', {
   fields: state => state.fields,
   children: true
 }, {}, state => {
-  console.log('--------------------------------------------------------------------------------')
-  console.log(JSON.stringify(state.dataValues, null, 2))
-  console.log(JSON.stringify(state.data.dataValues, null, 2))
+  // console.log('--------------------------------------------------------------------------------')
+  // console.log(JSON.stringify(state.dataValues, null, 2))
+  // console.log(JSON.stringify(state.data.dataValues, null, 2))
   return { ...state, dataValues: [ ...state.dataValues, ...state.data.dataValues]}
-  console.log('--------------------------------------------------------------------------------')
+  // console.log('--------------------------------------------------------------------------------')
 }));
 
 fn(state => {
   const getCategory = dataElement => {
     return dataElement == 'ETYQ9xrOgCI' ? 'PITC' : dataElement == 'tsVPADeBpHd' ? 'CITC' : dataElement == 'BMiVQoY0NzQ' ? 'Self-Test' : ''
   }
-  return { ...state, getCategory };
+  
+  const dissegregationsMapping = {
+    'binVVrXjUoo/vfLYjpOKUf6': '15/19/M',
+    'XlGgWHa5Er0/H6gRO6Fk2z5': '15/19/F',
+  }
+  
+  const getDissegration = categoryOptionCombo => {
+    const dissegregations = Object.keys(dissegregationsMapping).map(key => key.split('/'))
+    console.log(dissegregations)
+    return ''
+  }
+  return { ...state, getCategory, getDissegration };
 })
 
 fn(state => {
-  let categories = {
-    PITC: [],
-    CITC: [],
-    'Self-Test': []
-  }
+  let categories = { PITC: [], CITC: [], 'Self-Test': [] }
   
   for (let dataValue of state.dataValues) {
     const dataElement = dataValue.dataElement
+    const categoryOptionCombo = dataValue.categoryOptionCombo
     const category = state.getCategory(dataElement)
-    console.log(category)
+    const dissegregation = state.getDissegration(categoryOptionCombo)
+    // console.log(category)
     if (category !== '' ) {
       categories[category].push(dataValue)
     }
   }
   
-  console.log(JSON.stringify(categories, null, 2))
+  // console.log(JSON.stringify(categories, null, 2))
   return state;
 })
