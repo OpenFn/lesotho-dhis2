@@ -1,4 +1,51 @@
 fn(state => {
+  
+  const categoriesMapping = {
+    ETYQ9xrOgCI: 'PITC',
+    tsVPADeBpHd: 'CITC',
+    BMiVQoY0NzQ: 'Self-Test'
+  }
+  
+  const getCategory = dataElement => {
+    const categories = Object.keys(categoriesMapping)
+    if (categories.includes(dataElement)) {
+      return categoriesMapping[dataElement]
+    }
+    return ''
+  }
+  
+  const dissegregationsMapping = {
+    'binVVrXjUoo/vfLYjpOKUf6': '15/19/M',
+    'XlGgWHa5Er0/H6gRO6Fk2z5': '15/19/F',
+    'dn857qxCLjI/oiMr7kc4xQ4': '20/24/M',
+    'kuaIs6PmO6t/dnENZnNWDsn': '20/24/F',
+    'EfnRUWLUFgM/C6m6OCR7m6G': '25/29/M',
+    'yBiyPmKY8Ys/dOp6s9tOpaQ': '25/29/F',
+    'e82ZBAX5mwf/drpUCVywbI0': '30/34/M',
+    'ascYulb9hGt/hDYiOpgnUmE': '30/34/F',
+    'yX8Jw94a50t/TnfsTY77mJy': '35/39/M',
+    'jy86glDoMLO/EAbeHR61ft1': '35/39/F',
+    'GLyrxm7RamK/RJSlhFTTNXI': '40/44/M',
+    'hAyTxAXdvJd/nQrR1Zgq2gr': '40/44/F',
+    'cICl8QRiG2M/Yg1cxATwSlO': '45/49/M',
+    'sDN7dWzFX89/NTCqCfaP80J': '45/49/F',
+    'Q4lUeDf2r7z/mbz798qghl6': '50+/ /M',
+    'mt9SWhh1Cre/yXvU2aw5wyC': '50+/ /F',
+  }
+  
+  const getDissegration = categoryOptionCombo => {
+    const dissegregations = Object.keys(dissegregationsMapping)
+    for (let dissegregation of dissegregations) {
+      if (dissegregation.split("/").includes(categoryOptionCombo)) {
+        return dissegregationsMapping[dissegregation]
+      }
+    }
+    return ''
+  }
+  return { ...state, getCategory, getDissegration };
+})
+
+fn(state => {
   const orgunits = [
     "hfal93WttYV",
     // "JEhqFsfXxTt",
@@ -41,48 +88,6 @@ each("orgunits[*]", get('dataValueSets', {
   return { ...state, dataValues: [ ...state.dataValues, ...state.data.dataValues]}
   // console.log('--------------------------------------------------------------------------------')
 }));
-
-fn(state => {
-  const getCategory = dataElement => {
-    return dataElement == 'ETYQ9xrOgCI' ? '' : dataElement == '' ? '' : dataElement == '' ? 'Self-Test' : ''
-  }
-  
-  const categoriesMapping = {
-    ETYQ9xrOgCI: 'PITC',
-    tsVPADeBpHd: 'CITC',
-    BMiVQoY0NzQ: 'Self-Test'
-  }
-  
-  const dissegregationsMapping = {
-    'binVVrXjUoo/vfLYjpOKUf6': '15/19/M',
-    'XlGgWHa5Er0/H6gRO6Fk2z5': '15/19/F',
-    'dn857qxCLjI/oiMr7kc4xQ4': '20/24/M',
-    'kuaIs6PmO6t/dnENZnNWDsn': '20/24/F',
-    'EfnRUWLUFgM/C6m6OCR7m6G': '25/29/M',
-    'yBiyPmKY8Ys/dOp6s9tOpaQ': '25/29/F',
-    'e82ZBAX5mwf/drpUCVywbI0': '30/34/M',
-    'ascYulb9hGt/hDYiOpgnUmE': '30/34/F',
-    'yX8Jw94a50t/TnfsTY77mJy': '35/39/M',
-    'jy86glDoMLO/EAbeHR61ft1': '35/39/F',
-    'GLyrxm7RamK/RJSlhFTTNXI': '40/44/M',
-    'hAyTxAXdvJd/nQrR1Zgq2gr': '40/44/F',
-    'cICl8QRiG2M/Yg1cxATwSlO': '45/49/M',
-    'sDN7dWzFX89/NTCqCfaP80J': '45/49/F',
-    'Q4lUeDf2r7z/mbz798qghl6': '50+/ /M',
-    'mt9SWhh1Cre/yXvU2aw5wyC': '50+/ /F',
-  }
-  
-  const getDissegration = categoryOptionCombo => {
-    const dissegregations = Object.keys(dissegregationsMapping)
-    for (let dissegregation of dissegregations) {
-      if (dissegregation.split("/").includes(categoryOptionCombo)) {
-        return dissegregationsMapping[dissegregation]
-      }
-    }
-    return ''
-  }
-  return { ...state, getCategory, getDissegration };
-})
 
 fn(state => {
   let categories = { PITC: [], CITC: [], 'Self-Test': [] }
