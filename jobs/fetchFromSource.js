@@ -35,7 +35,7 @@ each("orgunits[*]", get('dataValueSets', {
   fields: state => state.fields,
   children: true
 }, {}, state => {
-  console.log("EACH STATE", state)
+  console.log("EACH STATE", state.data.orgUnit)
   return { ...state, dataValueSets: [ ...state.dataValueSets, state.data]}
 }));
 
