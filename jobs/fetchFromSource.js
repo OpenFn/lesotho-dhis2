@@ -55,7 +55,7 @@ fn(state => {
   const getDissegration = categoryOptionCombo => {
     const dissegregations = Object.keys(dissegregationsMapping)
     for (let dissegregation of dissegregations) {
-      if (categoryOptionCombo in dissegregation.split("/")) {
+      if (dissegregation.split("/").includes(categoryOptionCombo)) {
         return dissegregationsMapping[dissegregation]
       }
     }
