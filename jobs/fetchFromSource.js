@@ -83,3 +83,22 @@ each("orgunits[*]", get('dataValueSets', {
   console.log('------------------------------------------------------------------------')
   return { ...state, dataValues: [ ...state.dataValues, ...state.data.dataValues]}
 }));
+
+fn(state => {
+  let categories = {}
+  
+  for (let dataValue of state.dataValues) {
+    const dataElement = dataValue.dataElement
+    const categoryOptionCombo = dataValue.categoryOptionCombo
+    const category = state.getCategory(dataElement)
+    const dissegregation = state.getDissegration(categoryOptionCombo)
+    if (category !== '' && dissegregation !== '') {
+      categories[category] = categories[category] || {};
+      categories[category][dissegregation] = categories[category][dissegregation] || []
+      categories[category][dissegregation].push(dataValue)
+    }
+  }
+  
+  console.log(JSON.stringify(categories, null, 2))
+  return state;
+})
