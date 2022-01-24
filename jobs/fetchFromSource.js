@@ -43,12 +43,10 @@ each("orgunits[*]", get('dataValueSets', {
 }));
 
 fn(state => {
-  const testCategoryMapping = {
-    ETYQ9xrOgCI: 'PITC',
-    tsVPADeBpHd: 'CITC',
-    BMiVQoY0NzQ: 'SELFTEST'
+  const getCategory = dataElement => {
+    return dataElement === 'ETYQ9xrOgCI' ? 'PITC' : dataElement === 'tsVPADeBpHd' ? 'CITC' : dataElement === 'BMiVQoY0NzQ' ? 'Self-Test' : ''
   }
-  return { ...state, testCategoryMapping };
+  return { ...state, getCategory };
 })
 
 fn(state => {
@@ -59,7 +57,11 @@ fn(state => {
   }
   
   for (let dataValue of state.dataValues) {
-    categories[state.testCategoryMapping[dataValue.dataElement]].push(dataValue)
+    const dataElement = dataValue.dataElement
+    const category = state.getCategory(dataElement)
+    if (category !== '' ) {
+      categories[category].push(dataValue)
+    }
   }
   
   console.log(JSON.stringify(categories, null, 2))
