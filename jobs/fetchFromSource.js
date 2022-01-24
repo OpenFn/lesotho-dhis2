@@ -25,7 +25,7 @@ fn(state => {
     "soweCPFSM7L",
     "isI5LRdu80m",
   ]
-  return { ...state, dataSet: 'bkBzJ3ETIBD', fields: '*', period: '202111', orgunits, dataValueSets: []};
+  return { ...state, dataSet: 'bkBzJ3ETIBD', fields: '*', period: '202111', orgunits, dataValues: []};
 })
 
 each("orgunits[*]", get('dataValueSets', {
@@ -34,10 +34,25 @@ each("orgunits[*]", get('dataValueSets', {
   period: state => state.period,
   fields: state => state.fields,
   children: true
-}, {}, state => ({ ...state, dataValueSets: [ ...state.dataValueSets, state.data]})));
+}, {}, state => ({ ...state, dataValues: [ ...state.dataValues, ...state.data.dataValues]})));
 
 fn(state => {
   console.log('For testing only... view the output');
-  console.log(JSON.stringify(state.dataValueSets, null, 2));
+  console.log(JSON.stringify(state.dataValues, null, 2));
   return state;
 });
+
+fn(state => {
+  
+  let categories = {
+    PITC: [],
+    CITC: [],
+    SELFTEST: []
+  }
+  
+  // for (let dataValue of state.dataValues) {
+  //   console.log(dataValue)
+  // }
+  
+  return state;
+})
