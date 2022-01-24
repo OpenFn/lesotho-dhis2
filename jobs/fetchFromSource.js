@@ -86,9 +86,7 @@ each("orgunits[*]", state => {
   console.log(state.dataValues.length)
   console.log('------------------------------------------------------------------------')
   return { ...state, dataValues: [ ...state.dataValues, ...state.data.dataValues]}
-})
-  
-});
+})});
 
 fn(state => {
   let categories = {}
