@@ -38,6 +38,6 @@ each("orgunits[*]", get('dataValueSets', {
 
 fn(state => {
   console.log('For testing only... view the output');
-  console.log(JSON.stringify(state.dataValueSets, null, 2));
+  console.log(state.dataValueSets.length);
   return state;
 });
