@@ -44,6 +44,7 @@ each("orgunits[*]", get('dataValueSets', {
 
 fn(state => {
   const getCategory = dataElement => {
+    console.log(dataElement)
     return dataElement == 'ETYQ9xrOgCI' ? 'PITC' : dataElement == 'tsVPADeBpHd' ? 'CITC' : dataElement == 'BMiVQoY0NzQ' ? 'Self-Test' : ''
   }
   return { ...state, getCategory };
