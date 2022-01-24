@@ -44,7 +44,6 @@ each("orgunits[*]", get('dataValueSets', {
 
 fn(state => {
   const getCategory = dataElement => {
-    console.log(dataElement)
     return dataElement == 'ETYQ9xrOgCI' ? 'PITC' : dataElement == 'tsVPADeBpHd' ? 'CITC' : dataElement == 'BMiVQoY0NzQ' ? 'Self-Test' : ''
   }
   return { ...state, getCategory };
@@ -54,12 +53,13 @@ fn(state => {
   let categories = {
     PITC: [],
     CITC: [],
-    SELFTEST: []
+    'Self-Test': []
   }
   
   for (let dataValue of state.dataValues) {
     const dataElement = dataValue.dataElement
     const category = state.getCategory(dataElement)
+    console.log(category)
     if (category !== '' ) {
       categories[category].push(dataValue)
     }
