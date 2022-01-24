@@ -53,9 +53,12 @@ fn(state => {
   }
   
   const getDissegration = categoryOptionCombo => {
-    const dissegregations = Object.keys(dissegregationsMapping).map(key => key.split('/')).flat()
-    
-    console.log(dissegregations)
+    const dissegregations = Object.keys(dissegregationsMapping)
+    for (let dissegregation of dissegregations) {
+      if (categoryOptionCombo in dissegregation.split("/")) {
+        return dissegregationsMapping[dissegregation]
+      }
+    }
     return ''
   }
   return { ...state, getCategory, getDissegration };
@@ -69,12 +72,11 @@ fn(state => {
     const categoryOptionCombo = dataValue.categoryOptionCombo
     const category = state.getCategory(dataElement)
     const dissegregation = state.getDissegration(categoryOptionCombo)
-    // console.log(category)
     if (category !== '' ) {
-      categories[category].push(dataValue)
+      categories[category].push({ dissegregation: dataValue})
     }
   }
   
-  // console.log(JSON.stringify(categories, null, 2))
+  console.log(JSON.stringify(categories, null, 2))
   return state;
 })
