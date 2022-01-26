@@ -8,29 +8,29 @@ fn(state => {
 
   const orgUnits = [
     'hfal93WttYV',
-    'JEhqFsfXxTt',
-    'HqJwxVQhfyM',
-    'VSxknPhjR6o',
-    'M7qFOnwmE3A',
-    'Qq4jYe5tHnl',
-    'mNzjvxYEHkq',
-    'nFPxXeZftGm',
-    'eWjt9Zl76FS',
-    'uqh2OI3no6W',
-    'aeBwvrjdh7m',
-    'qnw9ul9mgww',
-    'Kts15CHhP3h',
-    'Er2eXRYQ5kD',
-    'mdpCE7IYau0',
-    'HR8JDs4Sae5',
-    'GBeQB9YNmP4',
-    'L4FwAUd37Wp',
-    'KlCB0HQHtbg',
-    'dJssgIzIiL4',
-    'TBh00t5LnBZ',
-    'lpjb08mkXcY',
-    'soweCPFSM7L',
-    'isI5LRdu80m',
+    // 'JEhqFsfXxTt',
+    // 'HqJwxVQhfyM',
+    // 'VSxknPhjR6o',
+    // 'M7qFOnwmE3A',
+    // 'Qq4jYe5tHnl',
+    // 'mNzjvxYEHkq',
+    // 'nFPxXeZftGm',
+    // 'eWjt9Zl76FS',
+    // 'uqh2OI3no6W',
+    // 'aeBwvrjdh7m',
+    // 'qnw9ul9mgww',
+    // 'Kts15CHhP3h',
+    // 'Er2eXRYQ5kD',
+    // 'mdpCE7IYau0',
+    // 'HR8JDs4Sae5',
+    // 'GBeQB9YNmP4',
+    // 'L4FwAUd37Wp',
+    // 'KlCB0HQHtbg',
+    // 'dJssgIzIiL4',
+    // 'TBh00t5LnBZ',
+    // 'lpjb08mkXcY',
+    // 'soweCPFSM7L',
+    // 'isI5LRdu80m',
   ];
 
   const categoryMap = {
@@ -40,8 +40,8 @@ fn(state => {
   };
 
   const agGroupMap = {
-    binVVrXjUoo: '15/19/M',
-    vfLYjpOKUf6: '15/19/M',
+    // binVVrXjUoo: '15/19/M',
+    // vfLYjpOKUf6: '15/19/M',
     binVVrXjUoo: '15/19/M',
     vfLYjpOKUf6: '15/19/M',
     XlGgWHa5Er0: '15/19/F',
@@ -75,6 +75,7 @@ fn(state => {
     mt9SWhh1Cre: '50+/ /F',
     yXvU2aw5wyC: '50+/ /F',
   };
+  
   return { ...state, groupBy, orgUnits, categoryMap, agGroupMap };
 });
 
@@ -96,7 +97,7 @@ each(
 
       const translated = dataValues
         .map(x => ({ ...x, category: categoryMap[x.dataElement] }))
-        .filter(x => x.category)
+        .filter(x => x.category) // Is this right ?
         .map(x => ({ ...x, agGroup: agGroupMap[x.categoryOptionCombo] }))
         .filter(x => x.agGroup);
 
@@ -111,7 +112,10 @@ each(
   )
 );
 
-See how this will appear Makhate ?
+fn(state => {
+  console.log("This is what the grouped data elements look like", state.data)
+  return state;
+})
 
 fn(state => {
   const htsDissagregationMapping = {
