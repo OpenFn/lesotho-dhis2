@@ -111,6 +111,8 @@ each(
   )
 );
 
+See how this will appear Makhate ?
+
 fn(state => {
   const htsDissagregationMapping = {
     binVVrXjUoo: 'G8oqaQnAmQz',
