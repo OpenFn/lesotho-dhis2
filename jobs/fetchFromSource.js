@@ -113,7 +113,7 @@ each(
 );
 
 fn(state => {
-  console.log("This is what the grouped data elements look like", state.data)
+  console.log("This is what the grouped data elements look like", JSON.stringify(state.data, null, 2))
   return state;
 })
 
