@@ -75,7 +75,7 @@ fn(state => {
     mt9SWhh1Cre: '50+/ /F',
     yXvU2aw5wyC: '50+/ /F',
   };
-  
+
   return { ...state, groupBy, orgUnits, categoryMap, agGroupMap };
 });
 
@@ -113,11 +113,6 @@ each(
 );
 
 fn(state => {
-  console.log("This is what the grouped data elements look like", JSON.stringify(state.data, null, 2))
-  return state;
-})
-
-fn(state => {
   const htsDissagregationMapping = {
     binVVrXjUoo: 'G8oqaQnAmQz',
     XlGgWHa5Er0: 'Ia5XrRgOoZc',
@@ -147,6 +142,7 @@ fn(state => {
     const selfTest = categories['Self-Test'];
     for (let i = 0; i < pitc.length; i++) {
       dataElements.push({
+        dataSet: 'Zoi4dBISyyV',
         dataElement: 'Yf8WlTHmR6L',
         period: pitc[i].period,
         orgUnit: pitc[i].orgUnit,
