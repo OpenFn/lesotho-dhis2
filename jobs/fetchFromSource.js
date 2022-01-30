@@ -105,7 +105,7 @@ fn(state => {
   const grouped = groupBy(translated, 'agGroup');
 
   Object.keys(grouped).forEach(cat => {
-    grouped[cat] = groupBy(grouped[cat], 'category');
+    grouped[cat] = groupBy(grouped[cat], 'orgUnit');
   });
 
   return { ...state, data: grouped };
