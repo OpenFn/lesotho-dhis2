@@ -8,7 +8,7 @@ fn(state => {
 
   const orgUnits = [
     'hfal93WttYV',
-    // 'JEhqFsfXxTt',
+    'JEhqFsfXxTt',
     // 'HqJwxVQhfyM',
     // 'VSxknPhjR6o',
     // 'M7qFOnwmE3A',
@@ -40,8 +40,6 @@ fn(state => {
   };
 
   const agGroupMap = {
-    // binVVrXjUoo: '15/19/M',
-    // vfLYjpOKUf6: '15/19/M',
     binVVrXjUoo: '15/19/M',
     vfLYjpOKUf6: '15/19/M',
     XlGgWHa5Er0: '15/19/F',
@@ -76,41 +74,42 @@ fn(state => {
     yXvU2aw5wyC: '50+/ /F',
   };
 
-  return { ...state, groupBy, orgUnits, categoryMap, agGroupMap };
+  return {
+    ...state,
+    orgUnits,
+    groupBy,
+    categoryMap,
+    agGroupMap,
+  };
 });
 
-each(
-  'orgUnits[*]',
-  get(
-    'dataValueSets',
-    {
-      orgUnit: state => state.data,
-      dataSet: 'bkBzJ3ETIBD',
-      period: '202111',
-      fields: '*',
-      children: true,
-    },
-    {},
-    state => {
-      const { groupBy, categoryMap, agGroupMap } = state;
-      const { dataValues } = state.data;
+// TODO: put back when manipulation is sorted.
+// get('dataValueSets', {
+//   orgUnit: state => state.orgUnits,
+//   dataSet: 'bkBzJ3ETIBD',
+//   period: '202111',
+//   fields: '*',
+//   // children: true,
+// });
 
-      const translated = dataValues
-        .map(x => ({ ...x, category: categoryMap[x.dataElement] }))
-        .filter(x => x.category) // Is this right ?
-        .map(x => ({ ...x, agGroup: agGroupMap[x.categoryOptionCombo] }))
-        .filter(x => x.agGroup);
+fn(state => {
+  const { groupBy, categoryMap, agGroupMap } = state;
+  const { dataValues } = state.data;
 
-      const grouped = groupBy(translated, 'agGroup');
+  const translated = dataValues
+    .map(x => ({ ...x, category: categoryMap[x.dataElement] }))
+    .filter(x => x.category) // Is this right ?
+    .map(x => ({ ...x, agGroup: agGroupMap[x.categoryOptionCombo] }))
+    .filter(x => x.agGroup);
 
-      Object.keys(grouped).forEach(cat => {
-        grouped[cat] = groupBy(grouped[cat], 'category');
-      });
+  const grouped = groupBy(translated, 'agGroup');
 
-      return { ...state, data: grouped };
-    }
-  )
-);
+  Object.keys(grouped).forEach(cat => {
+    grouped[cat] = groupBy(grouped[cat], 'category');
+  });
+
+  return { ...state, data: grouped };
+});
 
 fn(state => {
   const htsDissagregationMapping = {

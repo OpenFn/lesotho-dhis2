@@ -1,13 +1,8 @@
 fn(state => {
+  console.log("We've done the data manipulation in the previous step.");
   console.log(state.data);
+  console.log('Here, we load into the new system with the new credential.');
   return state;
 });
 
-// Option 1, use the bulk create endpoint.
-create('dataValueSets', state.data.dataElements);
-
-// Option 2, perform a "create" on each individual dataElement.
-// each(
-//   dataPath('dataElements[*]'),
-//   create('dataValueSets', state => state.data)
-// );
+create('dataValueSets', state.data);
