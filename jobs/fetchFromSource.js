@@ -1,44 +1,12 @@
 fn(state => {
-  const groupBy = (arr, key) => {
-    return arr.reduce((rv, x) => {
-      (rv[x[key]] = rv[x[key]] || []).push(x);
-      return rv;
-    }, {});
-  };
-
-  const orgUnits = [
-    'hfal93WttYV',
-    'JEhqFsfXxTt',
-    // 'HqJwxVQhfyM',
-    // 'VSxknPhjR6o',
-    // 'M7qFOnwmE3A',
-    // 'Qq4jYe5tHnl',
-    // 'mNzjvxYEHkq',
-    // 'nFPxXeZftGm',
-    // 'eWjt9Zl76FS',
-    // 'uqh2OI3no6W',
-    // 'aeBwvrjdh7m',
-    // 'qnw9ul9mgww',
-    // 'Kts15CHhP3h',
-    // 'Er2eXRYQ5kD',
-    // 'mdpCE7IYau0',
-    // 'HR8JDs4Sae5',
-    // 'GBeQB9YNmP4',
-    // 'L4FwAUd37Wp',
-    // 'KlCB0HQHtbg',
-    // 'dJssgIzIiL4',
-    // 'TBh00t5LnBZ',
-    // 'lpjb08mkXcY',
-    // 'soweCPFSM7L',
-    // 'isI5LRdu80m',
-  ];
-
+  // NOTE: this defines which dataElements we want to pull and labels them.
   const categoryMap = {
     ETYQ9xrOgCI: 'PITC',
     tsVPADeBpHd: 'CITC',
     BMiVQoY0NzQ: 'Self-Test',
   };
 
+  // NOTE: this combines multiple disaggregations into a single age/gender group
   const agGroupMap = {
     binVVrXjUoo: '15/19/M',
     vfLYjpOKUf6: '15/19/M',
@@ -74,84 +42,97 @@ fn(state => {
     yXvU2aw5wyC: '50+/ /F',
   };
 
+  // NOTE: this links the source age/gender group to the destination categoryOptionCombo
+  const destGroupMap = {
+    '15/19/M': 'G8oqaQnAmQz',
+    '15/19/F': 'Ia5XrRgOoZc',
+    '20/24/M': 'Wom5jBgNz3u',
+    '20/24/F': 'IjAGV77GfF7',
+    '25/29/M': 'PDD2n7mrfsl',
+    '25/29/F': 'xzKEwR4tzSx',
+    '30/34/M': 'F6owQuwE6Wy',
+    '30/34/F': 'VPSMkEfibBD',
+    '35/39/M': 'nmlGhaT89NX',
+    '35/39/F': 'NacBotlhYAT',
+    '40/44/M': 'dVV2GGALZwN',
+    '40/44/F': 'cC26VA39W5n',
+    '45/49/M': 'YIBJdSpwf9U',
+    '45/49/F': 'vnrdkNkVJLc',
+    '50+/ /M': 'AfFHNHpkv4M',
+    '50+/ /F': 'ZazrL0yVNem',
+  };
+
   return {
     ...state,
-    orgUnits,
-    groupBy,
     categoryMap,
     agGroupMap,
+    destGroupMap,
   };
 });
 
-// TODO: put back when manipulation is sorted.
-// get('dataValueSets', {
-//   orgUnit: state => state.orgUnits,
-//   dataSet: 'bkBzJ3ETIBD',
-//   period: '202111',
-//   fields: '*',
-//   // children: true,
-// });
+get('dataValueSets', {
+  orgUnit: [
+    'hfal93WttYV',
+    'JEhqFsfXxTt',
+    // 'HqJwxVQhfyM',
+    // 'VSxknPhjR6o',
+    // 'M7qFOnwmE3A',
+    // 'Qq4jYe5tHnl',
+    // 'mNzjvxYEHkq',
+    // 'nFPxXeZftGm',
+    // 'eWjt9Zl76FS',
+    // 'uqh2OI3no6W',
+    // 'aeBwvrjdh7m',
+    // 'qnw9ul9mgww',
+    // 'Kts15CHhP3h',
+    // 'Er2eXRYQ5kD',
+    // 'mdpCE7IYau0',
+    // 'HR8JDs4Sae5',
+    // 'GBeQB9YNmP4',
+    // 'L4FwAUd37Wp',
+    // 'KlCB0HQHtbg',
+    // 'dJssgIzIiL4',
+    // 'TBh00t5LnBZ',
+    // 'lpjb08mkXcY',
+    // 'soweCPFSM7L',
+    // 'isI5LRdu80m',
+  ],
+  dataSet: 'bkBzJ3ETIBD',
+  period: '202111',
+  fields: '*',
+  children: true,
+});
 
 fn(state => {
-  const { groupBy, categoryMap, agGroupMap } = state;
+  const { categoryMap, agGroupMap, destGroupMap } = state;
   const { dataValues } = state.data;
 
   const translated = dataValues
     .map(x => ({ ...x, category: categoryMap[x.dataElement] }))
-    .filter(x => x.category) // Is this right ?
+    .filter(x => x.category)
     .map(x => ({ ...x, agGroup: agGroupMap[x.categoryOptionCombo] }))
-    .filter(x => x.agGroup);
+    .filter(x => x.agGroup)
+    .map(x => ({ ...x, destCatCombo: destGroupMap[x.agGroup] }))
+    .map(x => ({ ...x, value: parseInt(x.value) }));
 
-  const grouped = groupBy(translated, 'agGroup');
+  const newDataValues = {};
 
-  Object.keys(grouped).forEach(cat => {
-    grouped[cat] = groupBy(grouped[cat], 'orgUnit');
+  translated.forEach(dv => {
+    const { orgUnit, value, period, destCatCombo } = dv;
+    const groupName = `${dv.orgUnit}${dv.agGroup}`;
+    const prevValue =
+      (newDataValues[groupName] && newDataValues[groupName].value) || 0;
+
+    newDataValues[groupName] = {
+      dataSet: 'Zoi4dBISyyV',
+      dataElement: 'Yf8WlTHmR6L',
+      attributeOptionCombo: 'qZPpgD4Ykqh',
+      categoryOptionCombo: destCatCombo,
+      value: prevValue + value,
+      orgUnit,
+      period,
+    };
   });
 
-  return { ...state, data: grouped };
-});
-
-fn(state => {
-  const htsDissagregationMapping = {
-    binVVrXjUoo: 'G8oqaQnAmQz',
-    XlGgWHa5Er0: 'Ia5XrRgOoZc',
-    dn857qxCLjI: 'Wom5jBgNz3u',
-    kuaIs6PmO6t: 'IjAGV77GfF7',
-    EfnRUWLUFgM: 'PDD2n7mrfsl',
-    yBiyPmKY8Ys: 'xzKEwR4tzSx',
-    e82ZBAX5mwf: 'F6owQuwE6Wy',
-    ascYulb9hGt: 'VPSMkEfibBD',
-    yX8Jw94a50t: 'nmlGhaT89NX',
-    jy86glDoMLO: 'NacBotlhYAT',
-    GLyrxm7RamK: 'dVV2GGALZwN',
-    hAyTxAXdvJd: 'cC26VA39W5n',
-    cICl8QRiG2M: 'YIBJdSpwf9U',
-    sDN7dWzFX89: 'vnrdkNkVJLc',
-    Q4lUeDf2r7z: 'AfFHNHpkv4M',
-    mt9SWhh1Cre: 'ZazrL0yVNem',
-  };
-
-  const combine = (pitc, citc, selfTest) =>
-    parseInt(pitc) + parseInt(citc) + parseInt(selfTest);
-
-  const dataElements = [];
-  Object.entries(state.data).forEach(([dissagregation, categories]) => {
-    const pitc = categories['PITC'];
-    const citc = categories['CITC'];
-    const selfTest = categories['Self-Test'];
-    for (let i = 0; i < pitc.length; i++) {
-      dataElements.push({
-        dataSet: 'Zoi4dBISyyV',
-        dataElement: 'Yf8WlTHmR6L',
-        period: pitc[i].period,
-        orgUnit: pitc[i].orgUnit,
-        categoryOptionCombo:
-          htsDissagregationMapping[pitc[i].categoryOptionCombo],
-        attributeOptionCombo: 'qZPpgD4Ykqh',
-        value: combine(pitc[i].value, citc[i].value, selfTest[i].value),
-        category: 'HTS',
-      });
-    }
-  });
-  return { ...state, data: { dataElements } };
+  return { ...state, data: { dataValues: Object.values(newDataValues) } };
 });
